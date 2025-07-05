@@ -23,6 +23,13 @@ export const getUserPosts = asyncHandler(async (req, res) => {
 
 export const createPost = asyncHandler(async (req, res) => {
   const { userId } = getAuth(req);
+
+  if (!req.body.content && !req.file) {
+    return res
+      .status(400)
+      .json({ message: "Post content or image is required" });
+  }
+
   const post = await postService.createPost(userId, req.body, req.file);
   res.status(201).json({ post });
 });
@@ -30,6 +37,9 @@ export const createPost = asyncHandler(async (req, res) => {
 export const likePost = asyncHandler(async (req, res) => {
   const { userId } = getAuth(req);
   const { postId } = req.body;
+
+  if (!postId) return res.status(400).json({ message: "Post ID is required" });
+
   const result = await postService.toggleLikePost(userId, postId);
   if (!result)
     return res.status(404).json({ message: "Post or user not found" });
@@ -39,6 +49,11 @@ export const likePost = asyncHandler(async (req, res) => {
 export const deletePost = asyncHandler(async (req, res) => {
   const { userId } = getAuth(req);
   const { postId } = req.params;
+
+  if (!postId) {
+    return res.status(400).json({ message: "Post ID is required" });
+  }
+
   const deleted = await postService.deletePost(userId, postId);
   if (!deleted)
     return res.status(401).json({ message: "Unauthorized or not found" });

@@ -11,8 +11,12 @@ const postPopulateOptions = [
   },
 ];
 
-export const findAllPosts = () => {
-  return Post.find().sort({ createdAt: -1 }).populate(postPopulateOptions);
+export const findAllPosts = (skip = 0, limit = 20) => {
+  return Post.find()
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .populate(postPopulateOptions);
 };
 
 export const findPostById = (postId) => {
