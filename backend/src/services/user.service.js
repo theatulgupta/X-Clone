@@ -17,12 +17,28 @@ export const syncUserWithClerk = async (clerkId) => {
   }
 
   const clerkUser = await clerkClient.users.getUser(clerkId);
+
+  if (!clerkUser.emailAddresses || clerkUser.emailAddresses.length === 0) {
+    throw new Error("No email address found for user");
+  }
+
+  const email = clerkUser.emailAddresses[0].emailAddress;
+  const baseUsername = email.split("@")[0];
+
+  // Generate unique username
+  let username = baseUsername;
+  let counter = 1;
+  while (await userDao.findUserByUsername(username)) {
+    username = `${baseUsername}${counter}`;
+    counter++;
+  }
+
   const userData = {
     clerkId,
-    email: clerkUser.emailAddresses[0].emailAddress,
+    email,
     firstName: clerkUser.firstName || "",
     lastName: clerkUser.lastName || "",
-    username: clerkUser.emailAddresses[0].emailAddress.split("@")[0],
+    username,
     profilePicture: clerkUser.imageUrl || "",
     bannerImage: "",
     bio: "",

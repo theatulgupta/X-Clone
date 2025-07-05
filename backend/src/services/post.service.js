@@ -26,19 +26,29 @@ export const createPost = async (clerkId, body, file) => {
 
   let imageUrl = null;
   if (file) {
+    // Validate file size (e.g., 5MB limit)
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSize) {
+      throw new Error("File size exceeds 5MB limit");
+    }
+
     const base64Image = `data:${file.mimetype};base64,${file.buffer.toString(
       "base64"
     )}`;
-    const upload = await cloudinary.uploader.upload(base64Image, {
-      folder: "posts",
-      resource_type: "image",
-      transformation: [
-        { width: 800, height: 600, crop: "limit" },
-        { quality: "auto" },
-        { format: "auto" },
-      ],
-    });
-    imageUrl = upload.secure_url;
+    try {
+      const upload = await cloudinary.uploader.upload(base64Image, {
+        folder: "posts",
+        resource_type: "image",
+        transformation: [
+          { width: 800, height: 600, crop: "limit" },
+          { quality: "auto" },
+          { format: "auto" },
+        ],
+      });
+      imageUrl = upload.secure_url;
+    } catch (error) {
+      throw new Error(`Image upload failed: ${error.message}`);
+    }
   }
 
   return postDao.createPost({

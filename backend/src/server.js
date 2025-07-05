@@ -21,6 +21,7 @@ app.use("/api/posts", postRoutes);
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.log("Unhandled error:", err);
+
   res.status(500).json({
     error: err.message,
     message: "Internal server error",

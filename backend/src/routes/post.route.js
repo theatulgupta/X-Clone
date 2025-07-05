@@ -20,6 +20,6 @@ router.get("/user/:username", getUserPosts);
 // Protected
 router.post("/", protectRoute, upload.single("image"), createPost);
 router.post("/like", protectRoute, likePost);
-router.post("/:postId", protectRoute, deletePost);
+router.delete("/:postId", protectRoute, deletePost);
 
 export default router;
