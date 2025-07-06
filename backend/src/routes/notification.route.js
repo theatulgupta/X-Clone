@@ -7,8 +7,8 @@ import {
 
 const router = Router();
 
-// Public
-router.get("/", getNotifications);
+// Protected
+router.get("/", protectRoute, getNotifications);
 
 // Protected
 router.delete("/:notificationId", protectRoute, deleteNotification);

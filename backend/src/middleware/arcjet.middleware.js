@@ -35,7 +35,7 @@ const arcjetMiddleware = async (req, res, next) => {
           .status(ERROR_RESPONSES.isRateLimit.status)
           .json(ERROR_RESPONSES.isRateLimit);
       }
-      if (isBot?.call(decision.reason)) {
+      if (isBot?.()) {
         return res
           .status(ERROR_RESPONSES.isBot.status)
           .json(ERROR_RESPONSES.isBot);
