@@ -25,6 +25,8 @@ export const createComment = async (userId, postId, content) => {
     content,
   });
 
+  // Save the comment before updating the post to ensure consistency
+  await comment.save();
   await commentDao.pushCommentToPost(postId, comment._id);
 
   if (post.user.toString() !== user._id.toString()) {
@@ -36,7 +38,6 @@ export const createComment = async (userId, postId, content) => {
     );
   }
 
-  await comment.save();
   return comment;
 };
 
