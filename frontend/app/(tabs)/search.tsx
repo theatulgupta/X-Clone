@@ -1,48 +1,31 @@
-import {
-  FlatList,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import React from "react";
+import { FlatList, Text, TextInput, View } from "react-native";
+import React, { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
-
-const TRENDING_TOPICS = [
-  { topic: "#ReactNative", tweets: "125k" },
-  { topic: "#TypeScript", tweets: "89k" },
-  { topic: "#ExpoGo", tweets: "74k" },
-  { topic: "#TanstackQuery", tweets: "70k" },
-  { topic: "#MobileDev", tweets: "65k" },
-  { topic: "#NextJS", tweets: "105k" },
-  { topic: "#GraphQL", tweets: "98k" },
-  { topic: "#TailwindCSS", tweets: "112k" },
-  { topic: "#ViteJS", tweets: "60k" },
-  { topic: "#Zustand", tweets: "54k" },
-  { topic: "#Prisma", tweets: "77k" },
-  { topic: "#Supabase", tweets: "84k" },
-  { topic: "#ExpoRouter", tweets: "68k" },
-  { topic: "#Firebase", tweets: "102k" },
-  { topic: "#ClerkAuth", tweets: "51k" },
-];
-
-type TrendingProps = {
-  topic: string;
-  tweets: string;
-};
+import {
+  TRENDING_TOPICS,
+  TrendingItem,
+  TrendingProps,
+} from "@/components/TrendingItem";
 
 const SearchScreen = () => {
-  const renderItem = ({ item }: { item: TrendingProps }) => {
-    const { topic, tweets } = item;
-    return (
-      <TouchableOpacity className="py-3 border-b border-gray-100">
-        <Text className="text-gray-500 text-sm">Trending Topic</Text>
-        <Text className="text-gray-900 text-lg font-semibold">{topic}</Text>
-        <Text className="text-gray-500 text-sm">{tweets} Tweets</Text>
-      </TouchableOpacity>
-    );
-  };
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const renderItem = useCallback(
+    ({ item }: { item: TrendingProps }) => (
+      <TrendingItem
+        topic={item.topic}
+        tweets={item.tweets}
+        onPress={() => {
+          // Handle topic selection, e.g., navigate to topic details
+        }}
+        accessible={true}
+        accessibilityLabel={`Trending topic ${item.topic} with ${item.tweets} tweets`}
+        accessibilityRole="button"
+      />
+    ),
+    []
+  );
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -54,6 +37,14 @@ const SearchScreen = () => {
             placeholder="Search Twitter"
             placeholderTextColor="#657786"
             className="flex-1 ml-3 text-base"
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            onSubmitEditing={() => {
+              // Handle search
+            }}
+            accessible={true}
+            accessibilityLabel="Search Twitter"
+            accessibilityHint="Enter keywords to search for tweets and topics"
           />
         </View>
       </View>
