@@ -7,6 +7,7 @@ import {
   TrendingItem,
   TrendingProps,
 } from "@/components/TrendingItem";
+import SearchBar from "@/components/SearchBar";
 
 const SearchScreen = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,26 +29,13 @@ const SearchScreen = () => {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
       {/* HEADER */}
-      <View className="px-4 py-3 border-b border-gray-100">
-        <View className="flex-row items-center justify-between bg-gray-100 rounded-full px-4 py-2">
-          <Feather name="search" size={20} color="#657786" />
-          <TextInput
-            placeholder="Search Twitter"
-            placeholderTextColor="#657786"
-            className="flex-1 ml-3 text-base"
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            onSubmitEditing={() => {
-              // Handle search
-            }}
-            accessible={true}
-            accessibilityLabel="Search Twitter"
-            accessibilityHint="Enter keywords to search for tweets and topics"
-          />
-        </View>
-      </View>
+      <SearchBar
+        searchText={searchQuery}
+        setSearchText={setSearchQuery}
+        placeholder="Search twitter"
+      />
 
       {/* TRENDING TOPICS */}
       <FlatList
