@@ -11,7 +11,7 @@ export type TrendingProps = {
   accessibilityRole?: AccessibilityRole;
 };
 
-export const TRENDING_TOPICS = [
+export const TRENDING_TOPICS: TrendingProps[] = [
   { topic: "#ReactNative", tweets: "125k" },
   { topic: "#TypeScript", tweets: "89k" },
   { topic: "#ExpoGo", tweets: "74k" },
