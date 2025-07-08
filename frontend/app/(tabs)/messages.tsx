@@ -47,47 +47,49 @@ const MessagesScreen = () => {
 
   const sendMessage = useCallback(() => {
     if (newMessage.trim() && selectedChat) {
-      const newTimestamp = new Date();
-      const newMsg: MessageType = {
-        id: Date.now(),
-        text: newMessage.trim(),
-        fromUser: true,
-        timestamp: newTimestamp,
-        time: "Just now",
-      };
+      try {
+        const newTimestamp = new Date();
+        const newMsg: MessageType = {
+          id: Date.now(),
+          text: newMessage.trim(),
+          fromUser: true,
+          timestamp: newTimestamp,
+          time: "Just now",
+        };
 
-      setChatsList((prevChats) =>
-        prevChats.map((chat) =>
-          chat.id === selectedChat.id
+        setChatsList((prevChats) =>
+          prevChats.map((chat) =>
+            chat.id === selectedChat.id
+              ? {
+                  ...chat,
+                  messages: [...chat.messages, newMsg],
+                  lastMessage: newMessage.trim(),
+                  timestamp: newTimestamp,
+                  time: "Just now",
+                }
+              : chat
+          )
+        );
+
+        // Update selectedChat so modal updates in real time
+        setSelectedChat((prev) =>
+          prev
             ? {
-                ...chat,
-                messages: [...chat.messages, newMsg],
+                ...prev,
+                messages: [...prev.messages, newMsg],
                 lastMessage: newMessage.trim(),
                 timestamp: newTimestamp,
                 time: "Just now",
               }
-            : chat
-        )
-      );
+            : prev
+        );
 
-      // Update selectedChat so modal updates in real time
-      setSelectedChat((prev) =>
-        prev
-          ? {
-              ...prev,
-              messages: [...prev.messages, newMsg],
-              lastMessage: newMessage.trim(),
-              timestamp: newTimestamp,
-              time: "Just now",
-            }
-          : prev
-      );
-
-      setNewMessage("");
-      Alert.alert(
-        "Message sent!",
-        `Your message has been sent to ${selectedChat.user.name}`
-      );
+        setNewMessage("");
+        // Consider: Only show alert for first message or remove entirely
+      } catch (error) {
+        Alert.alert("Error", "Failed to send message. Please try again.");
+        console.error("Error sending message:", error);
+      }
     }
   }, [newMessage, selectedChat]);
 

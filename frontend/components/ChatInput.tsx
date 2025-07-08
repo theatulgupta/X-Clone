@@ -14,10 +14,10 @@ const ChatInput: React.FC<ChatInputProps> = ({
   sendMessage,
 }) => (
   <View className="flex-row items-center px-4 py-3 border-t border-gray-100">
-    <View className="flex-1 flex-row items-center bg-gray-100 rounded-full px-4 py-3 mr-3">
+    <View className="flex-1 flex-row items-center bg-gray-100 rounded-full px-4 py-2 mr-3">
       <TextInput
-        className="flex-1 text-base"
-        placeholder="Start a message..."
+        className="flex-1 text-base pb-2"
+        placeholder="Start typing a message..."
         placeholderTextColor="#657786"
         value={newMessage}
         onChangeText={setNewMessage}

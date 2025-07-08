@@ -36,7 +36,7 @@ const ChatItem: React.FC<ChatItemProps> = ({ chat, onPress, onDelete }) => (
             @{chat.user.username}
           </Text>
         </View>
-        <Text className="text-gray-500 text-sm ">@{chat.time}</Text>
+        <Text className="text-gray-500 text-sm">{chat.time}</Text>
       </View>
       <Text className="text-gray-500 text-sm">{chat.lastMessage}</Text>
     </View>
