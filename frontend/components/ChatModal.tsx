@@ -40,12 +40,19 @@ const ChatModal: React.FC<ChatModalProps> = ({
       <SafeAreaView className="flex-1">
         {/* CHAT HEADER */}
         <View className="flex-row items-center px-4 py-3 border-b border-gray-100">
-          <TouchableOpacity onPress={onClose}>
+          <TouchableOpacity
+            onPress={onClose}
+            accessibilityLabel="Close chat"
+            accessibilityRole="button"
+          >
             <Feather name="arrow-left" size={24} color="#1DA1F2" />
           </TouchableOpacity>
           <Image
             source={{ uri: selectedChat.user.avatar }}
             className="size-10 rounded-full mr-3 ml-1"
+            defaultSource={require("@/assets/default-avatar.png")}
+            onError={() => console.warn("Failed to load avatar")}
+            accessibilityLabel={`${selectedChat.user.name}'s avatar`}
           />
           <View className="flex-1">
             <View className="flex-row items-center">
@@ -77,9 +84,15 @@ const ChatModal: React.FC<ChatModalProps> = ({
                 </View>
               );
             }
-            return (
-              <MessageItem message={item as MessageType} chat={selectedChat} />
-            );
+            if ("text" in item && "fromUser" in item) {
+              return (
+                <MessageItem
+                  message={item as MessageType}
+                  chat={selectedChat}
+                />
+              );
+            }
+            return null;
           }}
           contentContainerStyle={{ flexGrow: 1, padding: 4 }}
         />

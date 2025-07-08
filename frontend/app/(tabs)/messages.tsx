@@ -50,15 +50,17 @@ const MessagesScreen = () => {
       try {
         const newTimestamp = new Date();
         const newMsg: MessageType = {
-          id: Date.now(),
+          id: Date.now() + Math.random(),
           text: newMessage.trim(),
           fromUser: true,
           timestamp: newTimestamp,
           time: "Just now",
         };
 
-        setChatsList((prevChats) =>
-          prevChats.map((chat) =>
+        let updatedChatsList: ChatType[] = [];
+
+        setChatsList((prevChats) => {
+          updatedChatsList = prevChats.map((chat) =>
             chat.id === selectedChat.id
               ? {
                   ...chat,
@@ -68,20 +70,14 @@ const MessagesScreen = () => {
                   time: "Just now",
                 }
               : chat
-          )
-        );
+          );
+          return updatedChatsList;
+        });
 
-        // Update selectedChat so modal updates in real time
-        setSelectedChat((prev) =>
-          prev
-            ? {
-                ...prev,
-                messages: [...prev.messages, newMsg],
-                lastMessage: newMessage.trim(),
-                timestamp: newTimestamp,
-                time: "Just now",
-              }
-            : prev
+        // Update selectedChat from the updated chatsList
+        setSelectedChat(
+          (prev) =>
+            updatedChatsList.find((chat) => chat.id === prev?.id) || null
         );
 
         setNewMessage("");
@@ -97,7 +93,7 @@ const MessagesScreen = () => {
   const filteredChats = chatsList.filter(
     (chat) =>
       chat.user.name.toLowerCase().includes(searchText.toLowerCase()) ||
-      chat.lastMessage?.toLowerCase().includes(searchText.toLowerCase())
+      chat.lastMessage.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
