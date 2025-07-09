@@ -18,8 +18,12 @@ const port = ENV.PORT || process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// ✅ Clerk middleware to enable auth
 app.use(clerkMiddleware());
-app.use(arcjetMiddleware);
+
+// Rate Limiter
+// app.use(arcjetMiddleware());
 
 // Routes
 app.get("/", (req, res) => res.send("Hello from Server"));
@@ -28,7 +32,7 @@ app.use("/api/posts", postRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/notifications", notificationRoutes);
 
-// Error handling middleware
+// Error handling
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err);
   res.status(500).json({
@@ -50,5 +54,4 @@ const startServer = async () => {
 
 startServer();
 
-// Export for vercel
 export default app;

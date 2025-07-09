@@ -50,7 +50,7 @@ const ChatModal: React.FC<ChatModalProps> = ({
           <Image
             source={{ uri: selectedChat.user.avatar }}
             className="size-10 rounded-full mr-3 ml-1"
-            defaultSource={require("@/assets/default-avatar.png")}
+            defaultSource={require("../assets/images/default-avatar.png")}
             onError={() => console.warn("Failed to load avatar")}
             accessibilityLabel={`${selectedChat.user.name}'s avatar`}
           />

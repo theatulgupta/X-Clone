@@ -6,16 +6,15 @@ import {
   getCurrentUser,
   followUser,
 } from "../controllers/user.controller.js";
-import { protectRoute } from "../middleware/auth.middleware.js";
+import { requireAuth } from "@clerk/express";
+
 const router = Router();
 
-// Public
 router.get("/profile/:username", getUserProfile);
 
-// Protected
-router.put("/profile", protectRoute, updateProfile);
-router.post("/sync", protectRoute, syncUser);
-router.post("/me", protectRoute, getCurrentUser);
-router.post("/follow/:targetUserId", protectRoute, followUser);
+router.put("/profile", requireAuth(), updateProfile);
+router.post("/sync", requireAuth(), syncUser);
+router.get("/me", requireAuth(), getCurrentUser);
+router.post("/follow/:targetUserId", requireAuth(), followUser);
 
 export default router;
