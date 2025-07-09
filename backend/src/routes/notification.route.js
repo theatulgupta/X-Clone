@@ -1,16 +1,16 @@
 import { Router } from "express";
-import { protectRoute } from "../middleware/auth.middleware.js";
 import {
   getNotifications,
   deleteNotification,
 } from "../controllers/notification.controller.js";
+import { requireAuth } from "@clerk/express";
 
 const router = Router();
 
 // Protected
-router.get("/", protectRoute, getNotifications);
+router.get("/", requireAuth(), getNotifications);
 
 // Protected
-router.delete("/:notificationId", protectRoute, deleteNotification);
+router.delete("/:notificationId", requireAuth(), deleteNotification);
 
 export default router;

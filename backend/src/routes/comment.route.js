@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { protectRoute } from "../middleware/auth.middleware.js";
 import {
   createComment,
   deleteComment,
   getComment,
 } from "../controllers/comment.controller.js";
+import { requireAuth } from "@clerk/express";
 
 const router = Router();
 
@@ -12,7 +12,7 @@ const router = Router();
 router.get("/post/:postId", getComment);
 
 // Protected
-router.post("/post/:postId", protectRoute, createComment);
-router.delete("/:commentId", protectRoute, deleteComment);
+router.post("/post/:postId", requireAuth(), createComment);
+router.delete("/:commentId", requireAuth(), deleteComment);
 
 export default router;
