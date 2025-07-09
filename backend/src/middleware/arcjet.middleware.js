@@ -28,14 +28,15 @@ const arcjetMiddleware = async (req, res, next) => {
     const decision = await aj.protect(req, { requested: 1 });
 
     if (decision.isDenied()) {
-      const { isRateLimit, isBot } = decision.reason;
+      const reason = decision.reason;
+      console.log("Arcjet decision.reason:", reason);
 
-      if (isRateLimit?.call(decision.reason)) {
+      if (typeof reason?.isRateLimit === "function" && reason.isRateLimit()) {
         return res
           .status(ERROR_RESPONSES.isRateLimit.status)
           .json(ERROR_RESPONSES.isRateLimit);
       }
-      if (isBot?.()) {
+      if (typeof reason?.isBot === "function" && reason.isBot()) {
         return res
           .status(ERROR_RESPONSES.isBot.status)
           .json(ERROR_RESPONSES.isBot);
@@ -46,7 +47,11 @@ const arcjetMiddleware = async (req, res, next) => {
     }
 
     const spoofedBotDetected = decision.results?.some(
-      (r) => r.reason.isBot?.() && r.reason.isSpoofed?.()
+      (r) =>
+        typeof r.reason.isBot === "function" &&
+        r.reason.isBot() &&
+        typeof r.reason.isSpoofed === "function" &&
+        r.reason.isSpoofed()
     );
 
     if (spoofedBotDetected) {
