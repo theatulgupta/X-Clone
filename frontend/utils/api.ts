@@ -1,16 +1,24 @@
 import { useAuth } from "@clerk/clerk-expo";
 import axios, { AxiosInstance } from "axios";
 
-const API_BASE_URL = "https://x-clone-snowy-rho.vercel.app/api"; // use in prod
-// const API_BASE_URL = "http://10.68.36.234:5001/api"; // use for development
+const API_BASE_URL =
+  (process.env.EXPO_PUBLIC_API_URL as string) ||
+  "https://x-clone-snowy-rho.vercel.app/api";
 
 export const createApiClient = (getToken: () => Promise<string | null>) => {
   const api = axios.create({ baseURL: API_BASE_URL });
 
   api.interceptors.request.use(async (config) => {
-    const token = await getToken();
-    if (token) config.headers.Authorization = `Bearer ${token}`;
-    return config;
+    try {
+      const token = await getToken();
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    } catch (error) {
+      console.error("Failed to get auth token:", error);
+      return config;
+    }
   });
   return api;
 };
