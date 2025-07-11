@@ -1,10 +1,8 @@
-import { FlatList, Text, TextInput, View } from "react-native";
+import { FlatList, Text } from "react-native";
 import React, { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Feather } from "@expo/vector-icons";
-import {
+import TrendingItem, {
   TRENDING_TOPICS,
-  TrendingItem,
   TrendingProps,
 } from "@/components/TrendingItem";
 import SearchBar from "@/components/SearchBar";

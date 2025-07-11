@@ -17,7 +17,7 @@ export const formatDate = (dateString: string): string => {
   const hours = differenceInHours(now, date);
   const days = differenceInDays(now, date);
 
-  if (minutes < 1) return "just now";
+  if (minutes < 1) return "now";
   if (minutes < 60) return `${minutes}m`;
   if (hours < 24) return `${hours}h`;
   if (days < 7) return `${days}d`;

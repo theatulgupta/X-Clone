@@ -54,4 +54,6 @@ const TrendingItem = memo(function TrendingItem({
   );
 });
 
+TrendingItem.displayName = "TrendingItem";
+
 export default TrendingItem;
