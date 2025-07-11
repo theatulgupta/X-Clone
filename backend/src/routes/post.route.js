@@ -18,8 +18,7 @@ router.get("/:postId", getPost);
 router.get("/user/:username", getUserPosts);
 
 // Protected
-router.post("/", requireAuth(), createPost);
-router.post("/upload", requireAuth(), upload.single("image"), createPost);
+router.post("/", requireAuth(), upload.single("image"), createPost);
 router.post("/like", requireAuth(), likePost);
 router.delete("/:postId", requireAuth(), deletePost);
 
