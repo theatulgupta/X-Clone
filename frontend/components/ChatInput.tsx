@@ -8,8 +8,12 @@ interface ChatInputProps {
   sendMessage: () => void;
 }
 
-const ChatInput: React.FC<ChatInputProps> = memo(
-  ({ newMessage, setNewMessage, sendMessage }) => (
+const ChatInput: React.FC<ChatInputProps> = memo(function ChatInput({
+  newMessage,
+  setNewMessage,
+  sendMessage,
+}) {
+  return (
     <View className="flex-row items-center px-4 py-3 border-t border-gray-100">
       <View className="flex-1 flex-row items-center bg-gray-100 rounded-full px-4 py-2 mr-3">
         <TextInput
@@ -33,8 +37,8 @@ const ChatInput: React.FC<ChatInputProps> = memo(
         <Feather name="send" size={20} color="white" />
       </TouchableOpacity>
     </View>
-  )
-);
+  );
+});
 
 ChatInput.displayName = "ChatInput";
 

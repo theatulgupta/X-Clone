@@ -11,7 +11,7 @@ import { useCreatePost } from "@/hooks/useCreatePost";
 import { useUser } from "@clerk/clerk-expo";
 import { Feather } from "@expo/vector-icons";
 
-const PostComposer = memo(() => {
+const PostComposer = memo(function PostComposer() {
   const {
     content,
     setContent,

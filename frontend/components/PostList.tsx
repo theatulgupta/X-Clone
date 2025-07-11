@@ -5,7 +5,7 @@ import { usePosts } from "@/hooks/usePosts";
 import { Post } from "@/types";
 import PostCard from "./PostCard";
 
-const PostList = memo(() => {
+const PostList = memo(function PostList() {
   const { currentUser } = useCurrentUser();
   const {
     posts,

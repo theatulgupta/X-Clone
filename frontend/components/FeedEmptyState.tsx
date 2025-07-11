@@ -8,7 +8,7 @@ interface FeedEmptyStateProps {
 }
 
 const FeedEmptyState: React.FC<FeedEmptyStateProps> = memo(
-  ({ isLoading, error, onRetry }) => {
+  function FeedEmptyState({ isLoading, error, onRetry }) {
     if (isLoading) {
       return (
         <View className="p-8 items-center">

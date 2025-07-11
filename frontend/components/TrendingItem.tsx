@@ -1,6 +1,5 @@
 import React, { memo } from "react";
 import { Text, TouchableOpacity } from "react-native";
-
 import type { AccessibilityRole } from "react-native";
 
 export type TrendingProps = {
@@ -30,15 +29,15 @@ export const TRENDING_TOPICS: TrendingProps[] = [
   { topic: "#ClerkAuth", tweets: "51k" },
 ];
 
-export const TrendingItem = memo(
-  ({
-    topic,
-    tweets,
-    onPress,
-    accessible = true,
-    accessibilityLabel,
-    accessibilityRole = "button",
-  }: TrendingProps) => (
+const TrendingItem = memo(function TrendingItem({
+  topic,
+  tweets,
+  onPress,
+  accessible = true,
+  accessibilityLabel,
+  accessibilityRole = "button",
+}: TrendingProps) {
+  return (
     <TouchableOpacity
       className="py-3 border-b border-gray-100"
       onPress={onPress}
@@ -52,7 +51,7 @@ export const TrendingItem = memo(
       <Text className="text-gray-900 text-lg font-semibold">{topic}</Text>
       <Text className="text-gray-500 text-sm">{tweets} Tweets</Text>
     </TouchableOpacity>
-  )
-);
+  );
+});
 
-TrendingItem.displayName = "TrendingItem";
+export default TrendingItem;

@@ -10,14 +10,14 @@ interface SearchBarProps {
   accessibilityHint?: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = memo(
-  ({
-    searchText,
-    setSearchText,
-    placeholder,
-    accessibilityLabel = "Search",
-    accessibilityHint = "Enter keywords to search",
-  }) => (
+const SearchBar: React.FC<SearchBarProps> = memo(function SearchBar({
+  searchText,
+  setSearchText,
+  placeholder,
+  accessibilityLabel = "Search",
+  accessibilityHint = "Enter keywords to search",
+}) {
+  return (
     <View className="px-4 py-2.5 border-b border-gray-100">
       <View className="flex-row items-center bg-gray-100 rounded-full px-4 py-3">
         <Feather name="search" size={20} color="#657786" />
@@ -33,8 +33,8 @@ const SearchBar: React.FC<SearchBarProps> = memo(
         />
       </View>
     </View>
-  )
-);
+  );
+});
 
 SearchBar.displayName = "SearchBar";
 
