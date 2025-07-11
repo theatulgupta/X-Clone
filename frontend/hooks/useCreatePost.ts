@@ -5,9 +5,9 @@ import { useApiClient } from "@/utils/api";
 import * as ImagePicker from "expo-image-picker";
 
 // Types
-type PostProps = {
+export type PostProps = {
   content: string;
-  imageUrl?: string;
+  image?: string;
 };
 
 export const useCreatePost = () => {
@@ -72,14 +72,14 @@ export const useCreatePost = () => {
   };
 
   const createPostMutation = useMutation({
-    mutationFn: async ({ content, imageUrl }: PostProps) => {
+    mutationFn: async ({ content, image }: PostProps) => {
       const formData = new FormData();
       if (content) formData.append("content", content);
-      if (imageUrl) {
+      if (image) {
         formData.append("image", {
-          uri: imageUrl,
-          name: getFileName(imageUrl),
-          type: getMimeType(imageUrl),
+          uri: image,
+          name: getFileName(image),
+          type: getMimeType(image),
         } as any);
       }
       return api.post("/posts", formData, {
@@ -107,7 +107,7 @@ export const useCreatePost = () => {
     }
     createPostMutation.mutate({
       content,
-      imageUrl: selectedImage || undefined,
+      image: selectedImage || undefined,
     });
   };
 

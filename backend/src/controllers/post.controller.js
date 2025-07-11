@@ -4,21 +4,21 @@ import * as postService from "../services/post.service.js";
 
 export const getPosts = asyncHandler(async (req, res) => {
   const posts = await postService.getAllPosts();
-  res.status(200).json(posts);
+  res.status(200).json({ posts });
 });
 
 export const getPost = asyncHandler(async (req, res) => {
   const { postId } = req.params;
   const post = await postService.getPostById(postId);
   if (!post) return res.status(404).json({ message: "Post not found" });
-  res.status(200).json(post);
+  res.status(200).json({ post });
 });
 
 export const getUserPosts = asyncHandler(async (req, res) => {
   const { username } = req.params;
   const posts = await postService.getPostsByUsername(username);
   if (!posts) return res.status(404).json({ message: "User not found" });
-  res.status(200).json(posts);
+  res.status(200).json({ posts });
 });
 
 export const createPost = asyncHandler(async (req, res) => {

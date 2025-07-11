@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { View, Text, Image } from "react-native";
 import { ChatType, MessageType } from "@/data/chats";
 
@@ -7,7 +7,7 @@ interface MessageItemProps {
   message: MessageType;
 }
 
-const MessageItem: React.FC<MessageItemProps> = ({ message, chat }) => (
+const MessageItem = memo(({ message, chat }: MessageItemProps) => (
   <View className={`flex-row mb-3 ${message.fromUser ? "justify-end" : ""}`}>
     {!message.fromUser && (
       <Image
@@ -26,6 +26,8 @@ const MessageItem: React.FC<MessageItemProps> = ({ message, chat }) => (
       <Text className="text-xs text-gray-400 mt-1">{message.time}</Text>
     </View>
   </View>
-);
+));
+
+MessageItem.displayName = "MessageItem";
 
 export default MessageItem;
