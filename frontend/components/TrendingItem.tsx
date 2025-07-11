@@ -1,3 +1,4 @@
+import React, { memo } from "react";
 import { Text, TouchableOpacity } from "react-native";
 
 import type { AccessibilityRole } from "react-native";
@@ -29,25 +30,29 @@ export const TRENDING_TOPICS: TrendingProps[] = [
   { topic: "#ClerkAuth", tweets: "51k" },
 ];
 
-export const TrendingItem = ({
-  topic,
-  tweets,
-  onPress,
-  accessible = true,
-  accessibilityLabel,
-  accessibilityRole = "button",
-}: TrendingProps) => (
-  <TouchableOpacity
-    className="py-3 border-b border-gray-100"
-    onPress={onPress}
-    accessible={accessible}
-    accessibilityLabel={
-      accessibilityLabel ?? `Trending topic ${topic} with ${tweets} tweets`
-    }
-    accessibilityRole={accessibilityRole}
-  >
-    <Text className="text-gray-500 text-sm">Trending Topic</Text>
-    <Text className="text-gray-900 text-lg font-semibold">{topic}</Text>
-    <Text className="text-gray-500 text-sm">{tweets} Tweets</Text>
-  </TouchableOpacity>
+export const TrendingItem = memo(
+  ({
+    topic,
+    tweets,
+    onPress,
+    accessible = true,
+    accessibilityLabel,
+    accessibilityRole = "button",
+  }: TrendingProps) => (
+    <TouchableOpacity
+      className="py-3 border-b border-gray-100"
+      onPress={onPress}
+      accessible={accessible}
+      accessibilityLabel={
+        accessibilityLabel ?? `Trending topic ${topic} with ${tweets} tweets`
+      }
+      accessibilityRole={accessibilityRole}
+    >
+      <Text className="text-gray-500 text-sm">Trending Topic</Text>
+      <Text className="text-gray-900 text-lg font-semibold">{topic}</Text>
+      <Text className="text-gray-500 text-sm">{tweets} Tweets</Text>
+    </TouchableOpacity>
+  )
 );
+
+TrendingItem.displayName = "TrendingItem";

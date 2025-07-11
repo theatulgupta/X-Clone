@@ -1,11 +1,11 @@
 import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { memo } from "react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { usePosts } from "@/hooks/usePosts";
 import { Post } from "@/types";
 import PostCard from "./PostCard";
 
-const PostList = () => {
+const PostList = memo(() => {
   const { currentUser } = useCurrentUser();
   const {
     posts,
@@ -32,7 +32,7 @@ const PostList = () => {
         <Text className="text-gray-500 mb-4">Failed to load posts.</Text>
         <TouchableOpacity
           className="bg-blue-500 px-4 py-2 rounded-lg"
-          onPress={() => refetch}
+          onPress={() => refetch()}
         >
           <Text className="text-white font-semibold">Retry</Text>
         </TouchableOpacity>
@@ -62,6 +62,8 @@ const PostList = () => {
       ))}
     </>
   );
-};
+});
+
+PostList.displayName = "PostList";
 
 export default PostList;

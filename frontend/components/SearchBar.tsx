@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { View, TextInput } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
@@ -10,28 +10,32 @@ interface SearchBarProps {
   accessibilityHint?: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({
-  searchText,
-  setSearchText,
-  placeholder,
-  accessibilityLabel = "Search",
-  accessibilityHint = "Enter keywords to search",
-}) => (
-  <View className="px-4 py-2.5 border-b border-gray-100">
-    <View className="flex-row items-center bg-gray-100 rounded-full px-4 py-3">
-      <Feather name="search" size={20} color="#657786" />
-      <TextInput
-        placeholder={placeholder}
-        placeholderTextColor="#657786"
-        className="flex-1 ml-3 text-base"
-        value={searchText}
-        onChangeText={setSearchText}
-        accessible={true}
-        accessibilityLabel={accessibilityLabel}
-        accessibilityHint={accessibilityHint}
-      />
+const SearchBar: React.FC<SearchBarProps> = memo(
+  ({
+    searchText,
+    setSearchText,
+    placeholder,
+    accessibilityLabel = "Search",
+    accessibilityHint = "Enter keywords to search",
+  }) => (
+    <View className="px-4 py-2.5 border-b border-gray-100">
+      <View className="flex-row items-center bg-gray-100 rounded-full px-4 py-3">
+        <Feather name="search" size={20} color="#657786" />
+        <TextInput
+          placeholder={placeholder}
+          placeholderTextColor="#657786"
+          className="flex-1 ml-3 text-base"
+          value={searchText}
+          onChangeText={setSearchText}
+          accessible={true}
+          accessibilityLabel={accessibilityLabel}
+          accessibilityHint={accessibilityHint}
+        />
+      </View>
     </View>
-  </View>
+  )
 );
+
+SearchBar.displayName = "SearchBar";
 
 export default SearchBar;

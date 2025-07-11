@@ -37,6 +37,7 @@ const PostCard = memo(
                 : require("../assets/images/default-avatar.png")
             }
             className="size-12 rounded-full mr-3"
+            onError={() => {}}
           />
           <View className="flex-1">
             <View className="flex-row items-center justify-between mb-1">
@@ -55,6 +56,8 @@ const PostCard = memo(
                 <TouchableOpacity
                   onPress={handleDelete}
                   hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                  accessibilityLabel="Delete post"
+                  accessibilityHint="Double tap to delete this post"
                 >
                   <Feather name="trash" size={20} color="#657786" />
                 </TouchableOpacity>
@@ -75,14 +78,21 @@ const PostCard = memo(
             <View className="flex-row justify-between max-w-xs">
               <TouchableOpacity
                 className="flex-row items-center"
-                onPress={() => {}}
+                onPress={() => {
+                  // TODO: Implement comment functionality
+                }}
               >
                 <Feather name="message-circle" size={18} color="#657786" />
                 <Text className="text-gray-500 ml-2 text-sm">
                   {formatNumber(post.comments.length || 0)}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity className="flex-row items-center">
+              <TouchableOpacity
+                className="flex-row items-center"
+                onPress={() => {
+                  // TODO: Implement retweet functionality
+                }}
+              >
                 <Feather name="repeat" size={18} color="#657786" />
                 <Text className="text-gray-500 ml-2 text-sm">0</Text>
               </TouchableOpacity>
