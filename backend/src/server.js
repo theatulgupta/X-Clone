@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { clerkMiddleware } from "@clerk/express";
+import morgan from "morgan";
 
 import ENV from "./config/env.js";
 import { connectDB } from "./config/db.js";
@@ -18,6 +19,7 @@ const port = ENV.PORT || process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan("dev"));
 
 // ✅ Clerk middleware to enable auth
 app.use(clerkMiddleware());
