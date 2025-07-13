@@ -6,12 +6,12 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import React, { memo } from "react";
+import React from "react";
 import { useCreatePost } from "@/hooks/useCreatePost";
 import { useUser } from "@clerk/clerk-expo";
 import { Feather } from "@expo/vector-icons";
 
-const PostComposer = memo(function PostComposer() {
+function PostComposer() {
   const {
     content,
     setContent,
@@ -110,8 +110,6 @@ const PostComposer = memo(function PostComposer() {
       </View>
     </View>
   );
-});
-
-PostComposer.displayName = "PostComposer";
+}
 
 export default PostComposer;

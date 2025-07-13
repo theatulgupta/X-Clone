@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { ChatType } from "@/data/chats";
@@ -9,11 +9,7 @@ interface ChatItemProps {
   onDelete: (id: number) => void;
 }
 
-const ChatItem = memo(function ChatItem({
-  chat,
-  onPress,
-  onDelete,
-}: ChatItemProps) {
+const ChatItem = function ChatItem({ chat, onPress, onDelete }: ChatItemProps) {
   return (
     <TouchableOpacity
       onPress={() => onPress(chat)}
@@ -49,8 +45,6 @@ const ChatItem = memo(function ChatItem({
       </View>
     </TouchableOpacity>
   );
-});
-
-ChatItem.displayName = "ChatItem";
+};
 
 export default ChatItem;

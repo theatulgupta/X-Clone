@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { View, Text, Image } from "react-native";
 import { ChatType, MessageType } from "@/data/chats";
 
@@ -7,10 +7,7 @@ interface MessageItemProps {
   message: MessageType;
 }
 
-const MessageItem = memo(function MessageItem({
-  message,
-  chat,
-}: MessageItemProps) {
+function MessageItem({ message, chat }: MessageItemProps) {
   return (
     <View className={`flex-row mb-3 ${message.fromUser ? "justify-end" : ""}`}>
       {!message.fromUser && (
@@ -31,8 +28,6 @@ const MessageItem = memo(function MessageItem({
       </View>
     </View>
   );
-});
-
-MessageItem.displayName = "MessageItem";
+}
 
 export default MessageItem;

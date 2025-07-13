@@ -1,7 +1,7 @@
-import { postApiClient, useApiClient } from "@/utils/api";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useApiClient, postApiClient } from "../utils/api";
 
-export const usePosts = () => {
+export const usePosts = (username?: string) => {
   const api = useApiClient();
   const queryClient = useQueryClient();
 
@@ -11,28 +11,38 @@ export const usePosts = () => {
     error,
     refetch,
   } = useQuery({
-    queryKey: ["posts"],
-    queryFn: () => postApiClient.getPosts(api),
+    queryKey: username ? ["userPosts", username] : ["posts"],
+    queryFn: () =>
+      username
+        ? postApiClient.getUserPosts(api, username)
+        : postApiClient.getPosts(api),
     select: (response) => response.data.posts,
   });
 
   const likePostMutation = useMutation({
     mutationFn: (postId: string) => postApiClient.likePost(api, postId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["posts"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      if (username) {
+        queryClient.invalidateQueries({ queryKey: ["userPosts", username] });
+      }
+    },
   });
 
   const deletePostMutation = useMutation({
     mutationFn: (postId: string) => postApiClient.deletePost(api, postId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
-      queryClient.invalidateQueries({ queryKey: ["userPosts"] });
+      if (username) {
+        queryClient.invalidateQueries({ queryKey: ["userPosts", username] });
+      }
     },
   });
 
-  const checkIsLiked = (
-    postLikes: string[],
-    currentUser: { _id: string } | null
-  ) => !!(currentUser && postLikes.includes(currentUser._id));
+  const checkIsLiked = (postLikes: string[], currentUser: any) => {
+    const isLiked = currentUser && postLikes.includes(currentUser._id);
+    return isLiked;
+  };
 
   return {
     posts: postsData || [],

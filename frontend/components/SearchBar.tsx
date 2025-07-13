@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { View, TextInput } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
@@ -10,7 +10,7 @@ interface SearchBarProps {
   accessibilityHint?: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = memo(function SearchBar({
+const SearchBar: React.FC<SearchBarProps> = function SearchBar({
   searchText,
   setSearchText,
   placeholder,
@@ -34,8 +34,6 @@ const SearchBar: React.FC<SearchBarProps> = memo(function SearchBar({
       </View>
     </View>
   );
-});
-
-SearchBar.displayName = "SearchBar";
+};
 
 export default SearchBar;

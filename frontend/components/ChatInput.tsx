@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { View, TextInput, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
@@ -8,7 +8,7 @@ interface ChatInputProps {
   sendMessage: () => void;
 }
 
-const ChatInput: React.FC<ChatInputProps> = memo(function ChatInput({
+const ChatInput: React.FC<ChatInputProps> = function ChatInput({
   newMessage,
   setNewMessage,
   sendMessage,
@@ -38,8 +38,6 @@ const ChatInput: React.FC<ChatInputProps> = memo(function ChatInput({
       </TouchableOpacity>
     </View>
   );
-});
-
-ChatInput.displayName = "ChatInput";
+};
 
 export default ChatInput;

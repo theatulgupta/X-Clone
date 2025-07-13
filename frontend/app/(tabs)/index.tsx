@@ -1,39 +1,25 @@
-import {
-  KeyboardAvoidingView,
-  Platform,
-  Text,
-  View,
-  FlatList,
-} from "react-native";
-import React from "react";
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
-import SignOutButton from "@/components/SignOutButton";
-import { useSyncUser } from "@/hooks/useSyncUser";
-import { Ionicons } from "@expo/vector-icons";
 import PostComposer from "@/components/PostComposer";
+import PostsList from "@/components/PostsList";
+import SignOutButton from "@/components/SignOutButton";
 import { usePosts } from "@/hooks/usePosts";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
-import PostCard from "@/components/PostCard";
-import FeedEmptyState from "@/components/FeedEmptyState";
+import { useUserSync } from "@/hooks/useUserSync";
+import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
+import { RefreshControl, ScrollView, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const HomeScreen = () => {
-  useSyncUser();
-  const insets = useSafeAreaInsets();
-  const keyboardVerticalOffset = Platform.OS === "ios" ? insets.top + 44 : 0;
+  const [isRefetching, setIsRefetching] = useState(false);
+  const { refetch: refetchPosts } = usePosts();
 
-  const { currentUser } = useCurrentUser();
-  const {
-    posts,
-    isLoading,
-    error,
-    refetch,
-    toggleLike,
-    deletePost,
-    checkIsLiked,
-  } = usePosts();
+  const handlePullToRefresh = async () => {
+    setIsRefetching(true);
+
+    await refetchPosts();
+    setIsRefetching(false);
+  };
+
+  useUserSync();
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -42,40 +28,23 @@ const HomeScreen = () => {
         <Text className="text-xl font-bold text-gray-900">Home</Text>
         <SignOutButton />
       </View>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        keyboardVerticalOffset={keyboardVerticalOffset}
+
+      <ScrollView
+        showsVerticalScrollIndicator={false}
         className="flex-1"
+        contentContainerStyle={{ paddingBottom: 80 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefetching}
+            onRefresh={handlePullToRefresh}
+            tintColor={"#1DA1F2"}
+          />
+        }
       >
-        <FlatList
-          ListHeaderComponent={<PostComposer />}
-          data={posts || []}
-          keyExtractor={(item) => item._id}
-          renderItem={({ item }) => (
-            <PostCard
-              key={item._id}
-              post={item}
-              onLike={(postId) => toggleLike(postId)}
-              onDelete={(postId) => deletePost(postId)}
-              currentUser={currentUser}
-              isLiked={checkIsLiked(item.likes, currentUser)}
-            />
-          )}
-          refreshing={isLoading}
-          onRefresh={refetch}
-          ListEmptyComponent={
-            <FeedEmptyState
-              isLoading={isLoading}
-              error={!!error}
-              onRetry={() => refetch()}
-            />
-          }
-          contentContainerStyle={{ paddingBottom: 18 }}
-          showsVerticalScrollIndicator={false}
-        />
-      </KeyboardAvoidingView>
+        <PostComposer />
+        <PostsList />
+      </ScrollView>
     </SafeAreaView>
   );
 };
-
 export default HomeScreen;

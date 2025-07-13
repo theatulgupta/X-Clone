@@ -1,11 +1,12 @@
-import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
-import React, { memo } from "react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { usePosts } from "@/hooks/usePosts";
 import { Post } from "@/types";
+import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import PostCard from "./PostCard";
+import { useState } from "react";
+import CommentsModal from "./CommentsModal";
 
-const PostList = memo(function PostList() {
+const PostsList = ({ username }: { username?: string }) => {
   const { currentUser } = useCurrentUser();
   const {
     posts,
@@ -15,13 +16,18 @@ const PostList = memo(function PostList() {
     toggleLike,
     deletePost,
     checkIsLiked,
-  } = usePosts();
+  } = usePosts(username);
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+
+  const selectedPost = selectedPostId
+    ? posts.find((p: Post) => p._id === selectedPostId)
+    : null;
 
   if (isLoading) {
     return (
       <View className="p-8 items-center">
-        <ActivityIndicator size={"large"} color={"#1DA1F2"} />
-        <Text>Loading...</Text>
+        <ActivityIndicator size="large" color="#1DA1F2" />
+        <Text className="text-gray-500 mt-2">Loading posts...</Text>
       </View>
     );
   }
@@ -29,7 +35,7 @@ const PostList = memo(function PostList() {
   if (error) {
     return (
       <View className="p-8 items-center">
-        <Text className="text-gray-500 mb-4">Failed to load posts.</Text>
+        <Text className="text-gray-500 mb-4">Failed to load posts</Text>
         <TouchableOpacity
           className="bg-blue-500 px-4 py-2 rounded-lg"
           onPress={() => refetch()}
@@ -43,7 +49,7 @@ const PostList = memo(function PostList() {
   if (posts.length === 0) {
     return (
       <View className="p-8 items-center">
-        <Text className="text-gray-500 mb-4">No posts yet.</Text>
+        <Text className="text-gray-500">No posts yet</Text>
       </View>
     );
   }
@@ -56,14 +62,18 @@ const PostList = memo(function PostList() {
           post={post}
           onLike={toggleLike}
           onDelete={deletePost}
+          onComment={(post: Post) => setSelectedPostId(post._id)}
           currentUser={currentUser}
           isLiked={checkIsLiked(post.likes, currentUser)}
         />
       ))}
+
+      <CommentsModal
+        selectedPost={selectedPost}
+        onClose={() => setSelectedPostId(null)}
+      />
     </>
   );
-});
+};
 
-PostList.displayName = "PostList";
-
-export default PostList;
+export default PostsList;
