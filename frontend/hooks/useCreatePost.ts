@@ -4,7 +4,6 @@ import { Alert } from "react-native";
 import { useApiClient } from "@/utils/api";
 import * as ImagePicker from "expo-image-picker";
 
-// Types
 export type PostProps = {
   content: string;
   image?: string;

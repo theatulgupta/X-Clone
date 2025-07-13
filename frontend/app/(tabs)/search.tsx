@@ -16,7 +16,7 @@ const SearchScreen = () => {
         topic={item.topic}
         tweets={item.tweets}
         onPress={() => {
-          // Handle topic selection, e.g., navigate to topic details
+          // TODO : Implement actual search functionality
         }}
         accessible={true}
         accessibilityLabel={`Trending topic ${item.topic} with ${item.tweets} tweets`}

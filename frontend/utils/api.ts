@@ -5,7 +5,6 @@ const API_BASE_URL =
   (process.env.EXPO_PUBLIC_API_URL as string) ||
   "https://x-clone-snowy-rho.vercel.app/api";
 
-// this will basically create an authenticated api, pass the token into our headers
 export const createApiClient = (
   getToken: () => Promise<string | null>
 ): AxiosInstance => {
