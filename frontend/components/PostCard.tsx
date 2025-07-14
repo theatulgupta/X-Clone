@@ -125,5 +125,4 @@ function PostCard({
     </View>
   );
 }
-
-export default PostCard;
+export default React.memo(PostCard);

@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useApiClient, postApiClient } from "../utils/api";
+import { useCallback, useMemo } from "react";
 
 export const usePosts = (username?: string) => {
   const api = useApiClient();
@@ -39,18 +40,28 @@ export const usePosts = (username?: string) => {
     },
   });
 
-  const checkIsLiked = (postLikes: string[], currentUser: any) => {
-    const isLiked = currentUser && postLikes.includes(currentUser._id);
-    return isLiked;
-  };
+  const checkIsLiked = useCallback((postLikes: string[], currentUser: any) => {
+    return !!(currentUser && postLikes.includes(currentUser._id));
+  }, []);
 
-  return {
-    posts: postsData || [],
-    isLoading,
-    error,
-    refetch,
-    toggleLike: (postId: string) => likePostMutation.mutate(postId),
-    deletePost: (postId: string) => deletePostMutation.mutate(postId),
-    checkIsLiked,
-  };
+  const toggleLike = useCallback(
+    (postId: string) => likePostMutation.mutate(postId),
+    [likePostMutation]
+  );
+  const deletePost = useCallback(
+    (postId: string) => deletePostMutation.mutate(postId),
+    [deletePostMutation]
+  );
+  return useMemo(
+    () => ({
+      posts: postsData || [],
+      isLoading,
+      error,
+      refetch,
+      toggleLike,
+      deletePost,
+      checkIsLiked,
+    }),
+    [postsData, isLoading, error, refetch, toggleLike, deletePost, checkIsLiked]
+  );
 };

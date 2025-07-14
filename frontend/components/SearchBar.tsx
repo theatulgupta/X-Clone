@@ -19,7 +19,7 @@ const SearchBar: React.FC<SearchBarProps> = function SearchBar({
 }) {
   return (
     <View className="px-4 py-2.5 border-b border-gray-100">
-      <View className="flex-row items-center bg-gray-100 rounded-full px-4 py-3">
+      <View className="flex-row items-center bg-gray-100 rounded-full px-4 py-1">
         <Feather name="search" size={20} color="#657786" />
         <TextInput
           placeholder={placeholder}
