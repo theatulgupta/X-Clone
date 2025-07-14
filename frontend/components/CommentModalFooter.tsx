@@ -1,3 +1,4 @@
+import { User } from "@/types";
 import React from "react";
 import {
   View,
@@ -9,7 +10,7 @@ import {
 } from "react-native";
 
 interface CommentModalFooterProps {
-  currentUser: any;
+  currentUser: User | null;
   commentText: string;
   setCommentText: (text: string) => void;
   isCreatingComment: boolean;

@@ -26,6 +26,7 @@ const NotificationsScreen = () => {
     isRefetching,
     deleteNotification,
   } = useNotifications();
+
   const insets = useSafeAreaInsets();
 
   // Memoize keyExtractor for FlatList
