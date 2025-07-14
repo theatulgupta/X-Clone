@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Alert } from "react-native";
 import { useApiClient, commentApiClient } from "../utils/api";
@@ -33,19 +33,29 @@ export const useComments = () => {
     },
   });
 
-  const createComment = (postId: string) => {
-    if (!commentText.trim()) {
-      Alert.alert("Empty Comment", "Please write something before posting!");
-      return;
-    }
+  const createComment = useCallback(
+    (postId: string) => {
+      if (!commentText.trim()) {
+        Alert.alert("Empty Comment", "Please write something before posting!");
+        return;
+      }
+      createCommentMutation.mutate({ postId, content: commentText.trim() });
+    },
+    [commentText, createCommentMutation]
+  );
 
-    createCommentMutation.mutate({ postId, content: commentText.trim() });
-  };
-
-  return {
-    commentText,
-    setCommentText,
-    createComment,
-    isCreatingComment: createCommentMutation.isPending,
-  };
+  return useMemo(
+    () => ({
+      commentText,
+      setCommentText,
+      createComment,
+      isCreatingComment: createCommentMutation.isPending,
+    }),
+    [
+      commentText,
+      setCommentText,
+      createComment,
+      createCommentMutation.isPending,
+    ]
+  );
 };

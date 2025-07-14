@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "@clerk/clerk-expo";
 import { useApiClient, userApiClient } from "../utils/api";
@@ -12,12 +12,15 @@ export const useUserSync = () => {
     onError: (error) => console.error("User sync failed:", error),
   });
 
-  useEffect(() => {
+  const syncUser = useCallback(() => {
     if (isSignedIn && !syncUserMutation.data) {
       syncUserMutation.mutate();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSignedIn]);
+  }, [isSignedIn, syncUserMutation]);
+
+  useEffect(() => {
+    syncUser();
+  }, [syncUser]);
 
   return null;
 };

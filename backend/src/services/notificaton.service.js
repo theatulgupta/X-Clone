@@ -10,14 +10,14 @@ export const createNotification = async ({ from, to, postId, commentId }) => {
   return await notificationDao.createNotification(from, to, postId, commentId);
 };
 
-export const getUserNotifications = async (userId) => {
-  const user = await userDao.findUserById(userId);
+export const getUserNotifications = async (clerkUserId) => {
+  const user = await userDao.findUserByClerkId(clerkUserId);
   if (!user) throw new Error("User not found");
   return await notificationDao.findNotificationsForUser(user._id);
 };
 
-export const removeNotification = async (userId, notificationId) => {
-  const user = await userDao.findUserById(userId);
+export const removeNotification = async (clerkUserId, notificationId) => {
+  const user = await userDao.findUserByClerkId(clerkUserId);
   if (!user) throw new Error("User not found");
 
   const deleted = await notificationDao.deleteNotificationByIdForUser(

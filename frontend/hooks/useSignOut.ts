@@ -1,10 +1,11 @@
 import { useClerk } from "@clerk/clerk-expo";
 import { Alert } from "react-native";
+import { useCallback } from "react";
 
 export const useSignOut = () => {
   const { signOut } = useClerk();
 
-  const handleSignOut = async () => {
+  const handleSignOut = useCallback(async () => {
     Alert.alert("Logout", "Are you sure you want to logout?", [
       { text: "Cancel", style: "cancel" },
       {
@@ -20,6 +21,6 @@ export const useSignOut = () => {
         },
       },
     ]);
-  };
+  }, [signOut]);
   return { handleSignOut };
 };

@@ -1,12 +1,12 @@
+import React, { useState } from "react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { usePosts } from "@/hooks/usePosts";
 import { Post } from "@/types";
 import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import PostCard from "./PostCard";
-import { useState } from "react";
 import CommentsModal from "./CommentsModal";
 
-const PostsList = ({ username }: { username?: string }) => {
+const PostsList = React.memo(({ username }: { username?: string }) => {
   const { currentUser } = useCurrentUser();
   const {
     posts,
@@ -74,6 +74,8 @@ const PostsList = ({ username }: { username?: string }) => {
       />
     </>
   );
-};
+});
+
+PostsList.displayName = "PostsList";
 
 export default PostsList;
