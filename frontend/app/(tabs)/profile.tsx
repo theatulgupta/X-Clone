@@ -24,10 +24,10 @@ const ProfileScreen = () => {
   const insets = useSafeAreaInsets();
 
   const {
-    posts: userPosts,
+    posts: userPosts = [],
     refetch: refetchPosts,
     isLoading: isRefetching,
-  } = usePosts(currentUser.username);
+  } = usePosts(currentUser?.username || "");
 
   const {
     isEditModalVisible,
@@ -40,7 +40,7 @@ const ProfileScreen = () => {
     refetch: refetchProfile,
   } = useProfile();
 
-  if (isLoading) {
+  if (isLoading || !currentUser) {
     return (
       <View className="flex-1 items-center justify-center bg-white">
         <ActivityIndicator size={"large"} color={"#1DA1F2"} />
