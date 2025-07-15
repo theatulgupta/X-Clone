@@ -33,11 +33,21 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
     <Text className="text-gray-500 mb-2">@{username}</Text>
     <Text className="text-gray-900 mb-3">{bio}</Text>
     <View className="flex-row items-center mb-1">
-      <Feather name="map-pin" size={16} color="#657786" />
+      <Feather
+        name="map-pin"
+        size={16}
+        color="#657786"
+        accessibilityLabel="Location"
+      />
       <Text className="text-gray-500 ml-2">{location}</Text>
     </View>
     <View className="flex-row items-center mb-2">
-      <Feather name="calendar" size={16} color="#657786" />
+      <Feather
+        name="calendar"
+        size={16}
+        color="#657786"
+        accessibilityLabel="Join date"
+      />
       <Text className="text-gray-500 ml-2">Joined {createdAt}</Text>
     </View>
     <View className="flex-row ml-[2px]">

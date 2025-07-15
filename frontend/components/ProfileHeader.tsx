@@ -13,12 +13,23 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   lastName,
   postCount,
 }) => (
-  <View className="flex-row items-center justify-between px-4 py-3 border-b border-gray-100">
+  <View
+    className="flex-row items-center justify-between px-4 py-3 border-b border-gray-100"
+    accessibilityRole="header"
+  >
     <View>
-      <Text className="text-xl font-bold text-gray-900">
+      <Text
+        className="text-xl font-bold text-gray-900"
+        accessibilityRole="header"
+      >
         {firstName} {lastName}
       </Text>
-      <Text className="text-gray-500 text-sm">{postCount} posts</Text>
+      <Text
+        className="text-gray-500 text-sm"
+        accessibilityLabel={`${postCount} posts`}
+      >
+        {postCount} posts
+      </Text>
     </View>
     <SignOutButton />
   </View>
