@@ -1,10 +1,7 @@
 import {
   ActivityIndicator,
-  Image,
   RefreshControl,
   ScrollView,
-  Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import React from "react";
@@ -18,6 +15,7 @@ import { usePosts } from "@/hooks/usePosts";
 import PostsList from "@/components/PostsList";
 import ProfileHeader from "@/components/ProfileHeader";
 import ProfileInfo from "@/components/ProfileInfo";
+import ProfileAvatarBanner from "@/components/ProfileAvatarBanner";
 
 const ProfileScreen = () => {
   const { currentUser, isLoading } = useCurrentUser();
@@ -59,27 +57,18 @@ const ProfileScreen = () => {
         }
       >
         {/* BANNER */}
-        <Image
-          source={{
-            uri:
-              currentUser.banner ||
-              "https://images.unsplash.com/photo-1530982011887-3cc11cc85693?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        <ProfileAvatarBanner
+          banner={
+            currentUser.banner ||
+            "https://images.unsplash.com/photo-1530982011887-3cc11cc85693?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          }
+          profilePicture={currentUser.profilePicture}
+          onEditProfile={() => {
+            // TODO: Implement edit profile functionality
           }}
-          className="w-full h-48"
-          resizeMode="cover"
         />
 
         <View className="px-4 pb-4 border-b border-gray-100">
-          <View className="flex-row justify-between items-end -mt-16 mb-4">
-            <Image
-              source={{ uri: currentUser.profilePicture }}
-              className="size-32 rounded-full border-4 border-white"
-            />
-            <TouchableOpacity className="border border-gray-300 px-6 py-2 rounded-full">
-              <Text className="font-semibold text-gray-900">Edit Profile</Text>
-            </TouchableOpacity>
-          </View>
-
           <ProfileInfo
             firstName={currentUser.firstName}
             lastName={currentUser.lastName}
