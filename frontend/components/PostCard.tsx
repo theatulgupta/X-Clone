@@ -21,10 +21,11 @@ function PostCard({
   isLiked,
   onComment,
 }: PostCardProps) {
-  if (!post || !post.user) {
+  if (!post || !post.user || !currentUser) {
     return null;
   }
-  const isOwnPost = post.user && post.user._id === currentUser._id;
+  const isOwnPost =
+    post.user?._id && currentUser?._id && post.user._id === currentUser._id;
 
   const handleDelete = () => {
     Alert.alert("Delete Post", "Are you sure you want to delete this post?", [
