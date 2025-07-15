@@ -16,6 +16,8 @@ import PostsList from "@/components/PostsList";
 import ProfileHeader from "@/components/ProfileHeader";
 import ProfileInfo from "@/components/ProfileInfo";
 import ProfileAvatarBanner from "@/components/ProfileAvatarBanner";
+import { useProfile } from "@/hooks/useProfile";
+import EditProfileModal from "@/components/EditProfileModal";
 
 const ProfileScreen = () => {
   const { currentUser, isLoading } = useCurrentUser();
@@ -27,6 +29,17 @@ const ProfileScreen = () => {
     isLoading: isRefetching,
   } = usePosts(currentUser.username);
 
+  const {
+    isEditModalVisible,
+    openEditModal,
+    closeEditModal,
+    formData,
+    saveProfile,
+    updateFormField,
+    isUpdating,
+    refetch: refetchProfile,
+  } = useProfile();
+
   if (isLoading) {
     return (
       <View className="flex-1 items-center justify-center bg-white">
@@ -36,7 +49,7 @@ const ProfileScreen = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
       {/* HEADER */}
       <ProfileHeader
         firstName={currentUser.firstName}
@@ -51,7 +64,11 @@ const ProfileScreen = () => {
         refreshControl={
           <RefreshControl
             refreshing={isRefetching}
-            onRefresh={refetchPosts}
+            onRefresh={() => {
+              refetchPosts();
+              refetchProfile();
+            }}
+            colors={["#1DA1F2"]}
             tintColor={"#1DA1F2"}
           />
         }
@@ -63,9 +80,7 @@ const ProfileScreen = () => {
             "https://images.unsplash.com/photo-1530982011887-3cc11cc85693?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           }
           profilePicture={currentUser.profilePicture}
-          onEditProfile={() => {
-            // TODO: Implement edit profile functionality
-          }}
+          onEditProfile={() => openEditModal()}
         />
 
         <View className="px-4 pb-4 border-b border-gray-100">
@@ -83,6 +98,14 @@ const ProfileScreen = () => {
 
         <PostsList username={currentUser.username} />
       </ScrollView>
+      <EditProfileModal
+        isVisible={isEditModalVisible}
+        onClose={closeEditModal}
+        formData={formData}
+        updateFormField={updateFormField}
+        saveProfile={saveProfile}
+        isUpdating={isUpdating}
+      />
     </SafeAreaView>
   );
 };

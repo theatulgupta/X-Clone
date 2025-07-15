@@ -50,7 +50,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
       />
       <Text className="text-gray-500 ml-2">Joined {createdAt}</Text>
     </View>
-    <View className="flex-row ml-[2px]">
+    <View className="flex-row">
       <Text className="text-gray-900 mr-3">
         <Text className="font-bold">{followingCount}</Text>
         <Text className="text-gray-500"> Following</Text>
