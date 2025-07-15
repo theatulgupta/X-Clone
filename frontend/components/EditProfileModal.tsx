@@ -54,6 +54,10 @@ const EditProfileModal = ({
   saveProfile,
   isUpdating,
 }: EditProfileModalProps) => {
+  const handleSave = React.useCallback(() => {
+    saveProfile();
+  }, [saveProfile]);
+
   return (
     <Modal
       visible={isVisible}
@@ -68,10 +72,7 @@ const EditProfileModal = ({
         <Text className="text-lg font-semibold">Edit Profile</Text>
 
         <TouchableOpacity
-          onPress={() => {
-            saveProfile();
-            onClose();
-          }}
+          onPress={handleSave}
           disabled={isUpdating}
           className={`${isUpdating ? "opacity-50" : ""}`}
         >

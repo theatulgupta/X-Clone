@@ -51,8 +51,8 @@ export const useProfile = () => {
         bio: currentUser.bio || "",
         location: currentUser.location || "",
       });
+      setIsEditModalVisible(true);
     }
-    setIsEditModalVisible(true);
   }, [currentUser]);
 
   const closeEditModal = useCallback(() => setIsEditModalVisible(false), []);
